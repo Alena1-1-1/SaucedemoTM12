@@ -30,6 +30,70 @@ public class LoginTest {
         Assert.assertEquals(error, "Epic sadface: Username and password do not match any user in this service");
         driver.quit();
     }
+      /* Ввести верный логин и пароль
+       1.Открываем браузер
+       2.Вводим в строку поиска  https://www.saucedemo.com/
+       3.Ввожим в поле user - standard_user
+       4.Ввожим в поле - secret_sauce
+       5.Жмем кнопку login
+       6.Проверяем, что мы зашли на сайт */
+    @Test
+    public void positiveTest() {
+        WebDriver driver = new ChromeDriver();  /*заходит в Хром*/
+        driver.manage().window().maximize();   /*откроет страницу полноэкранный режим*/
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));  /*ждет 10 сек, чтобы продолжить*/
+        driver.get("https://www.saucedemo.com/");
+        driver.findElement(By.id("user-name")).sendKeys("standard_user"); /*находит элемент по айдишке и вводит*/
+        driver.findElement(By.id("password")).sendKeys("secret_sauce");
+        driver.findElement(By.id("login-button")).click();
+        boolean title = driver.findElement(By.cssSelector("[data-test=title]")).isDisplayed();
+        Assert.assertTrue(title);
+        driver.quit();
+    }
+ /* Поменять местами  логин и пароль
+    1.Открываем браузер
+    2.Вводим в строку поиска  https://www.saucedemo.com/
+    3.Ввожим в поле user - secret_sauce
+    4.Ввожим в поле - standard_user
+    5.Жмем кнопку login
+    6.Проверяем, что мы получили ошибку - Epic sadface: Username and password do not match any user in this service
+     */
+
+    @Test
+    public void YpypypyTest() {
+        WebDriver driver = new ChromeDriver(); /*заходит в Хром*/
+        driver.manage().window().maximize();   /*откроет страницу полноэкранный режим*/
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));  /*ждет 10 сек, чтобы продолжить*/
+        driver.get("https://www.saucedemo.com/");
+        driver.findElement(By.id("user-name")).sendKeys("secret_sauce"); /*находит элемент по айдишке и вводит*/
+        driver.findElement(By.id("password")).sendKeys("standard_user");
+        driver.findElement(By.id("login-button")).click();
+        String error = driver.findElement(By.cssSelector("[data-test=error]")).getText(); /*тк нет айдишки в коде, то так*/
+        Assert.assertEquals(error, "Epic sadface: Username and password do not match any user in this service");
+        driver.quit();
+    }
+     /* Использовать спецсимволы в пароле
+    1.Открываем браузер
+    2.Вводим в строку поиска  https://www.saucedemo.com/
+    3.Ввожим в поле user - standard_user
+    4.Ввожим в поле - 1*:%$7)
+    5.Жмем кнопку login
+    6.Проверяем, что мы получили ошибку - Epic sadface: Username and password do not match any user in this service
+     */
+
+    @Test
+    public void opopopTest() {
+        WebDriver driver = new ChromeDriver(); /*заходит в Хром*/
+        driver.manage().window().maximize();   /*откроет страницу полноэкранный режим*/
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));  /*ждет 10 сек, чтобы продолжить*/
+        driver.get("https://www.saucedemo.com/");
+        driver.findElement(By.id("user-name")).sendKeys("standard_user"); /*находит элемент по айдишке и вводит*/
+        driver.findElement(By.id("password")).sendKeys("1*:%$7)");
+        driver.findElement(By.id("login-button")).click();
+        String error = driver.findElement(By.cssSelector("[data-test=error]")).getText(); /*тк нет айдишки в коде, то так*/
+        Assert.assertEquals(error, "Epic sadface: Username and password do not match any user in this service");
+        driver.quit();
+    }
 
     @Test
     public void positiveTest() {
@@ -65,4 +129,5 @@ public class LoginTest {
         String error = driver.findElement(By.cssSelector("[data-test=error]")).getText(); /*тк нет айдишки в коде, то так*/
         Assert.assertEquals(error, "Epic sadface: Username and password do not match any user in this service");
         driver.quit();
+}
 }
